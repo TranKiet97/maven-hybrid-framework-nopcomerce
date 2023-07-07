@@ -143,6 +143,39 @@ public class BaseTest {
 		return driverBaseTest;
 	}
 	
+	protected WebDriver getBrowserOnLambda(String browserName, String role, String osName) {
+		DesiredCapabilities capability = new DesiredCapabilities();
+		capability.setCapability("platform", osName);
+		capability.setCapability("browserName", browserName);
+		capability.setCapability("version", "latest");
+		capability.setCapability("video", true);
+		capability.setCapability("visual", true);
+		capability.setCapability("network", true);
+		capability.setCapability("name", "Run on " + osName + " | " + browserName + " with version latest");
+		
+		if(osName.contains("Windows"))
+			capability.setCapability("screenResolution", "1920x1080");
+		else
+			capability.setCapability("screenResolution", "2560x1600");
+		
+		try {
+			driverBaseTest = new RemoteWebDriver(new URL(GlobalConstants.LAMBDA_URL), capability);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		driverBaseTest.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
+		switch (role) {
+		case "user":
+			driverBaseTest.get(GlobalConstants.PORTAL_PAGE_URL);
+			break;
+		case "admin":
+			driverBaseTest.get(GlobalConstants.ADMIN_PAGE_URL);
+			break;
+		}
+		return driverBaseTest;
+	}
+	
 	protected boolean verifyTrue(boolean condition) {
 		boolean pass = true;
 		try {

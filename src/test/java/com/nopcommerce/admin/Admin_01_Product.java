@@ -24,10 +24,10 @@ public class Admin_01_Product extends BaseTest {
 	private String adminPassword = "admin";
 	private String productName = "Lenovo IdeaCentre 600 All-in-One PC";
 
-	@Parameters("browser")
+	@Parameters({"browser", "osName"})
 	@BeforeClass
-	public void beforeClass(String browserName) {
-		driverTestClass = getBrowser(browserName, "admin");
+	public void beforeClass(String browserName, String osName) {
+		driverTestClass = getBrowserOnLambda(browserName, "admin", osName);
 		adminLoginPage = PageGeneratorManager.getAdminLoginPage(driverTestClass);
 		adminDashboardPage = adminLoginPage.loginAsAdmin(adminEmail, adminPassword);
 		Assert.assertTrue(adminDashboardPage.isDashboardHeaderDisplayed());
