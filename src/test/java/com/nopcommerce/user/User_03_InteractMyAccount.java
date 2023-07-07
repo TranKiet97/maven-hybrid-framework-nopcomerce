@@ -31,10 +31,10 @@ public class User_03_InteractMyAccount extends BaseTest {
 	private String firstName, lastName, currentPassword, newPassword, email, gender, company, country, state, city, addNo1, addNo2, zipCode, phoneNum, faxNum, reviewTitle, reviewText, rating;
 	private DataHelper dataFaker;
 
-	@Parameters("browser")
+	@Parameters({"browser", "osName", "osVersion"})
 	@BeforeClass
-	public void beforeClass(String browserName) {
-		driverTestClass = getBrowser(browserName, "user");
+	public void beforeClass(String browserName, String osName, String osVersion) {
+		driverTestClass = getBrowserOnBrowserStack(browserName, "user", osName, osVersion);
 		driverTestClass.manage().window().maximize();
 
 		userHomePage = PageGeneratorManager.getUserHomePage(driverTestClass);
@@ -47,7 +47,7 @@ public class User_03_InteractMyAccount extends BaseTest {
 		newPassword = "654321";
 		gender = "Female";
 		company = "Automation FC Company";
-		country = dataFaker.getState();
+		country = "Viet Nam";
 		state = "Other";
 		city = dataFaker.getCityName();
 		addNo1 = dataFaker.getAddress();

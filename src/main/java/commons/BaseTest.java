@@ -2,6 +2,7 @@ package commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
@@ -95,6 +98,37 @@ public class BaseTest {
 			break;
 		default:
 			throw new RuntimeException("Browser Name Invalid!");
+		}
+		
+		driverBaseTest.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
+		switch (role) {
+		case "user":
+			driverBaseTest.get(GlobalConstants.PORTAL_PAGE_URL);
+			break;
+		case "admin":
+			driverBaseTest.get(GlobalConstants.ADMIN_PAGE_URL);
+			break;
+		}
+		return driverBaseTest;
+	}
+	
+	protected WebDriver getBrowserOnBrowserStack(String browserName, String role, String osName, String osVersion) {
+		DesiredCapabilities capability = new DesiredCapabilities();
+		capability.setCapability("os", osName);
+		capability.setCapability("os_version", osVersion);
+		capability.setCapability("browser", browserName);
+		capability.setCapability("browser_version", "latest");
+		capability.setCapability("browserstack.debug", "true");
+		capability.setCapability("browserstack.networkLogs", "true");
+		capability.setCapability("browserstack.browserstack.consoleLogs", "errors");
+		capability.setCapability("resolution", "1920x1080");
+		capability.setCapability("project", "NopCommerce");
+		capability.setCapability("name", "Run on " + osName + " | " + osVersion + " | " + browserName + " with version latest");
+		
+		try {
+			driverBaseTest = new RemoteWebDriver(new URL(GlobalConstants.BROWSERSTACK_URL), capability);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		driverBaseTest.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);

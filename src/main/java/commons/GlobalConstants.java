@@ -27,4 +27,14 @@ public class GlobalConstants {
 	public static final long LONG_TIMEOUT = 30;
 	public static final long RETRY_TEST_FAILED = 3;
 	
+	public static final String BROWSERSTACK_USERNAME = "kiettran_GmJgRy";
+	public static final String BROWSERSTACK_ACCESSKEY = "JqkL7qAupXnx959Hp7UX";
+	public static final String BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + "@hub-cloud.browserstack.com/wd/hub";
+	
+	public static final String LAMBDA_USERNAME = "takiet197";
+	public static final String LAMBDA_ACCESSKEY = "88xCbyn3Ophwqoh5psESirkyeeUEgwgaPsr0hzE6GHfqYzPpw6";
+	public static final String LAMBDA_URL = "https://" + LAMBDA_USERNAME + ":" + LAMBDA_ACCESSKEY + "@hub.lambdatest.com/wd/hub";
+	
+	
+	
 }
